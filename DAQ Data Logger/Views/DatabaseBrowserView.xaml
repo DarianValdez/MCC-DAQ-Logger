@@ -1,0 +1,56 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModels="clr-namespace:DAQ_Data_Logger.ViewModels" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="DAQ_Data_Logger.Views.DatabaseBrowserView"
+        mc:Ignorable="d"
+        Title="Database Browser" Height="565" Width="1285" Icon="/DAQ Data Logger;component/Logger Pro.ico">
+    <Window.Resources>
+        <ViewModels:RangeToDoubleConverter x:Key="RangeToDoubleConverter"/>
+        <ViewModels:RangeToStringConverter x:Key="RangeToStringConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <ViewModels:DatabaseBrowserViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Wpf:CartesianChart x:Name="Chart" HorizontalAlignment="Left" Height="514" Margin="152,10,0,0" VerticalAlignment="Top" Width="1115" Zoom="X" Series="{Binding Series}" DisableAnimations="True" ScrollMode="X">
+            <Wpf:CartesianChart.AxisY>
+                <Wpf:Axis MaxValue="{Binding Resolution, ConverterParameter=1.0, Converter={StaticResource RangeToDoubleConverter}}" MinValue="{Binding Resolution, ConverterParameter=-1.0, Converter={StaticResource RangeToDoubleConverter}}"/>
+            </Wpf:CartesianChart.AxisY>
+            <Wpf:CartesianChart.AxisX>
+                <Wpf:Axis LabelFormatter="{Binding Formatter}"/>
+            </Wpf:CartesianChart.AxisX>
+        </Wpf:CartesianChart>
+        <xctk:DateTimePicker x:Name="BoxStart" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="137" ShowButtonSpinner="False" TimeFormat="LongTime" Kind="Utc" UpdateValueOnEnterKey="True" FormatString="yyyy-MM-dd HH:mm:ss" Format="Custom" TimeFormatString="HH:mm:ss" Text="" Minimum="{Binding DatabaseStartTime}" Maximum="{Binding DatabaseEndTime}" Value="{Binding SelectedStartTime, Mode=TwoWay}"/>
+        <xctk:DateTimePicker x:Name="BoxEnd" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="137" ShowButtonSpinner="False" TimeFormat="LongTime" Kind="Utc" UpdateValueOnEnterKey="True" FormatString="yyyy-MM-dd HH:mm:ss" Format="Custom" TimeFormatString="HH:mm:ss" Text="" Minimum="{Binding Value, ElementName=BoxStart}" Value="{Binding SelectedEndTime, Mode=TwoWay}" Maximum="{Binding DatabaseEndTime}"/>
+        <Button x:Name="BtnBrowse" Content="Browse..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="10,41,0,0" Command="{Binding BrowseCommand}"/>
+        <Label x:Name="LblFilepath" Content="{Binding Filepath}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="137"/>
+        <Label x:Name="LblEnd" Content="End Date" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblStart" Content="Start Date" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblDevices" Content="Devices" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnLoad" Content="Load" HorizontalAlignment="Left" Margin="72,499,0,0" VerticalAlignment="Top" Width="75" Command="{Binding LoadCommand}"/>
+        <ListBox x:Name="BoxSelected" HorizontalAlignment="Left" Height="309" Margin="10,184,0,0" VerticalAlignment="Top" Width="50" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <CheckBox IsChecked="{Binding DeviceSelected[0], Mode=TwoWay}" Content="{Binding DeviceNames[0]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[1], Mode=TwoWay}" Content="{Binding DeviceNames[1]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[2], Mode=TwoWay}" Content="{Binding DeviceNames[2]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[3], Mode=TwoWay}" Content="{Binding DeviceNames[3]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[4], Mode=TwoWay}" Content="{Binding DeviceNames[4]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[5], Mode=TwoWay}" Content="{Binding DeviceNames[5]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[6], Mode=TwoWay}" Content="{Binding DeviceNames[6]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[7], Mode=TwoWay}" Content="{Binding DeviceNames[7]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[8], Mode=TwoWay}" Content="{Binding DeviceNames[8]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[9], Mode=TwoWay}" Content="{Binding DeviceNames[9]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[10], Mode=TwoWay}" Content="{Binding DeviceNames[10]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[11], Mode=TwoWay}" Content="{Binding DeviceNames[11]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[12], Mode=TwoWay}" Content="{Binding DeviceNames[12]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[13], Mode=TwoWay}" Content="{Binding DeviceNames[13]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[14], Mode=TwoWay}" Content="{Binding DeviceNames[14]}"/>
+            <CheckBox IsChecked="{Binding DeviceSelected[15], Mode=TwoWay}" Content="{Binding DeviceNames[15]}"/>
+        </ListBox>
+        <Label x:Name="LblResolution" Content="Resolution:" HorizontalAlignment="Left" Margin="60,158,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnSelectAll" Content="Select All" HorizontalAlignment="Left" Margin="65,319,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SelectAllCommand}"/>
+        <Button x:Name="BtnSelectNone" Content="Select None" HorizontalAlignment="Left" Margin="65,344,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SelectNoneCommand}"/>
+        <Label x:Name="LblRange" Content="{Binding Resolution, Converter={StaticResource RangeToStringConverter}}" HorizontalAlignment="Left" Margin="122,158,0,0" VerticalAlignment="Top" Width="47"/>
+    </Grid>
+</Window>
